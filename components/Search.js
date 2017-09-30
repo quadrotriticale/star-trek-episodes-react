@@ -7,6 +7,7 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      inputValue: '',
       episodes: [],
       results: []
     }
@@ -17,9 +18,9 @@ class Search extends React.Component {
   }
 
   _handleChange(event) {
-    let inputString = event.target.value;
-    if (inputString.length > 2)
-      this._findMatches(inputString);
+    this.setState({inputValue: event.target.value});
+    if (this.state.inputValue.length > 2)
+      this._findMatches(this.state.inputValue);
     else {
       if (this.state.results.length > 0)
         this.setState({results: []});
@@ -34,7 +35,7 @@ class Search extends React.Component {
   }
 
   _handleClick(event) {
-    this.setState({results: []});
+    this.setState({inputValue: '', results: []});
     this.props._setEpisode(event);
   }
 
@@ -53,7 +54,7 @@ class Search extends React.Component {
 
     return (
       <div>
-        <input type="text" onChange={this._handleChange.bind(this)} placeholder="Episode title..."/>
+        <input type="text" onChange={this._handleChange.bind(this)} placeholder="Episode title..." value={this.state.inputValue} />
         {results}
       </div>
     )
